@@ -1,80 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Decision Tool Lab official</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Decision Tool Lab</title>
+  <meta name="description" content="Practical AI-assisted decision tools for high-uncertainty situations. No motivation. No coaching. No guarantees."/>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      line-height: 1.6;
-      color: #222;
+    :root{
+      --bg:#0b0f19;
+      --card:#111827;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:#1f2937;
+      --accent:#60a5fa;
+      --accent2:#34d399;
     }
-    h1, h2 {
-      color: #000;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(96,165,250,.18), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(52,211,153,.14), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.6;
     }
-    a {
-      color: #0066cc;
-      text-decoration: none;
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:980px; margin:0 auto; padding:28px 18px 60px}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 0 22px; border-bottom:1px solid rgba(31,41,55,.6);
+      position:sticky; top:0; backdrop-filter: blur(10px);
+      background: rgba(11,15,25,.6);
+      z-index:10;
     }
-    .box {
-      border: 1px solid #ddd;
-      padding: 15px;
-      margin: 20px 0;
+    .brand{display:flex; gap:10px; align-items:center}
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
     }
-    .small {
-      font-size: 0.9em;
-      color: #666;
+    .brand h1{font-size:16px; margin:0; letter-spacing:.2px}
+    .nav{display:flex; gap:14px; font-size:14px}
+    .nav a{color:var(--muted)}
+    .nav a:hover{color:var(--text); text-decoration:none}
+
+    .hero{padding:34px 0 18px}
+    .hero h2{font-size:40px; margin:0 0 10px; line-height:1.1}
+    .hero p{margin:0 0 18px; color:var(--muted); max-width:780px}
+    .pillrow{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 22px}
+    .pill{
+      border:1px solid rgba(31,41,55,.9);
+      background: rgba(17,24,39,.6);
+      padding:8px 10px; border-radius:999px;
+      color:var(--muted); font-size:13px;
+    }
+    .ctaRow{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:12px;
+      border:1px solid rgba(31,41,55,.9);
+      background: rgba(17,24,39,.9);
+      color:var(--text); font-weight:600; font-size:14px;
+      box-shadow: 0 14px 35px rgba(0,0,0,.28);
+    }
+    .btn.primary{
+      border-color: rgba(96,165,250,.65);
+      background: linear-gradient(135deg, rgba(96,165,250,.22), rgba(17,24,39,.92));
+    }
+    .btn:hover{text-decoration:none; transform: translateY(-1px)}
+    .grid{
+      display:grid; grid-template-columns: 1fr; gap:14px;
+      margin:20px 0 0;
+    }
+    @media(min-width:860px){
+      .grid{grid-template-columns: 1fr 1fr;}
+    }
+    .card{
+      border:1px solid rgba(31,41,55,.85);
+      background: rgba(17,24,39,.75);
+      border-radius:18px;
+      padding:18px 18px 16px;
+    }
+    .card h3{margin:0 0 6px; font-size:18px}
+    .card p{margin:0 0 12px; color:var(--muted)}
+    .meta{
+      display:flex; gap:10px; flex-wrap:wrap; margin:0 0 14px;
+      color:var(--muted); font-size:13px;
+    }
+    .tag{
+      border:1px solid rgba(31,41,55,.9);
+      padding:4px 8px; border-radius:999px;
+      background: rgba(11,15,25,.35);
+    }
+    .section{margin-top:26px}
+    .section h2{
+      font-size:18px; margin:0 0 10px; letter-spacing:.3px;
+      color:var(--text);
+    }
+    .section .sub{margin:0 0 14px; color:var(--muted)}
+    .list{margin:0; padding-left:18px; color:var(--muted)}
+    .foot{
+      margin-top:28px; padding-top:18px;
+      border-top:1px solid rgba(31,41,55,.6);
+      color:var(--muted); font-size:13px;
+    }
+    .note{
+      border-left:3px solid rgba(96,165,250,.6);
+      padding:10px 12px;
+      background: rgba(17,24,39,.55);
+      border-radius:12px;
+      color:var(--muted);
     }
   </style>
 </head>
 <body>
+  <div class="container">
 
-<h1>Decision Tool Lab</h1>
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>Decision Tool Lab</h1>
+      </div>
+      <div class="nav">
+        <a href="#products">Products</a>
+        <a href="#how">How it works</a>
+        <a href="#disclaimer">Disclaimer</a>
+      </div>
+    </div>
 
-<p>
-Practical AI-assisted decision tools for high-uncertainty situations.<br>
-No motivation. No coaching. No guarantees.
-</p>
+    <div class="hero">
+      <h2>Practical decision tools<br/>for high-uncertainty situations.</h2>
+      <p>
+        No motivation. No coaching. No guarantees.<br/>
+        Just structured decision support you can actually use.
+      </p>
 
-<h2>Why</h2>
-<p>
-Bad decisions usually come from unclear trade-offs and hidden risks.<br>
-Decision Tool Lab exists to reduce decision regret, not to promise success.
-</p>
+      <div class="pillrow">
+        <div class="pill">AI-assisted</div>
+        <div class="pill">Risk-first</div>
+        <div class="pill">Decision clarity</div>
+        <div class="pill">No human consulting</div>
+      </div>
 
-<h2>Products</h2>
+      <div class="ctaRow">
+        <a class="btn primary" href="#products">Explore products</a>
+        <a class="btn" href="#disclaimer">Read disclaimer</a>
+      </div>
+    </div>
 
-<div class="box">
-  <strong>JustChoose</strong><br>
-  High-impact decision framework for costly choices.<br>
-  <a href="https://toolale48.gumroad.com/l/uclkqb">View on Gumroad</a>
-</div>
+    <div class="section">
+      <h2>Why</h2>
+      <p class="sub">
+        Bad decisions usually come from unclear trade-offs and hidden risks.
+        Decision Tool Lab exists to reduce decision regret, not to promise success.
+      </p>
+      <div class="note">
+        You don’t get “answers”. You get structured thinking — then you decide.
+      </div>
+    </div>
 
-<div class="box">
-  <strong>ValoreReale.ai</strong><br>
-  AI-assisted value estimation for objects and assets.<br>
-  <a href="https://toolale48.gumroad.com/l/qelye">View on Gumroad</a>
-</div>
+    <div class="section" id="products">
+      <h2>Products</h2>
+      <p class="sub">Two tools. Clear scope. Clean outputs.</p>
 
-<h2>How it works</h2>
-<ol>
-  <li>You use the tool</li>
-  <li>You get structured output</li>
-  <li>You decide</li>
-</ol>
+      <div class="grid">
+        <div class="card">
+          <h3>JustChoose</h3>
+          <div class="meta">
+            <span class="tag">Decision framework</span>
+            <span class="tag">High-impact choices</span>
+            <span class="tag">Reduce downside</span>
+          </div>
+          <p>High-impact decision framework for costly choices.</p>
+          <a class="btn primary" href="https://toolale48.gumroad.com/l/uclkqb">View on Gumroad</a>
+        </div>
 
-<p>
-No human consulting. No ongoing support.
-</p>
+        <div class="card">
+          <h3>ValoreReale.ai</h3>
+          <div class="meta">
+            <span class="tag">Value range</span>
+            <span class="tag">Negotiation support</span>
+            <span class="tag">Risk flags</span>
+          </div>
+          <p>AI-assisted value estimation for objects and assets.</p>
+          <a class="btn primary" href="https://toolale48.gumroad.com/l/qelye">View on Gumroad</a>
+        </div>
+      </div>
+    </div>
 
-<h2>Disclaimer</h2>
-<p class="small">
-These tools provide decision support only.<br>
-They do not guarantee outcomes or replace professional advice.
-</p>
+    <div class="section" id="how">
+      <h2>How it works</h2>
+      <ol class="list">
+        <li>You use the tool</li>
+        <li>You get structured output</li>
+        <li>You decide</li>
+      </ol>
+      <p class="sub" style="margin-top:10px;">No human consulting. No ongoing support.</p>
+    </div>
 
+    <div class="section" id="disclaimer">
+      <h2>Disclaimer</h2>
+      <p class="sub">
+        These tools provide decision support only.<br/>
+        They do not guarantee outcomes or replace professional advice.
+      </p>
+    </div>
+
+    <div class="foot">
+      © Decision Tool Lab — Built on GitHub Pages
+    </div>
+
+  </div>
 </body>
 </html>
